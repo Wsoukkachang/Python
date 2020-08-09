@@ -1,37 +1,29 @@
-def pair_sum(arr, target):
-    # sort the list
-    arr.sort()
-    
-    # initialize two pointer - one from start of the array and other from the end
+def sort_012(input_list):
+    """
+    The idea is to put 0 and 2 in their correct positions, which will make sure
+    all the 1s are automatically placed in their right positions
+    """
+    # initialize pointers for next positions of 0 and 2
+    next_pos_0 = 0
+    next_pos_2 = len(input_list) - 1
+
     front_index = 0
-    back_index = len(arr) - 1
 
-    # shift the pointers
-    while front_index < back_index:
-        front = arr[front_index]
-        back = arr[back_index]
-
-        if front + back == target:
-            return [front, back]
-        elif front + back < target:       # sum < target ==> shift front pointer forward
-            front_index += 1 
+    while front_index <= next_pos_2:
+        if input_list[front_index] == 0:
+            input_list[front_index] = input_list[next_pos_0]
+            input_list[next_pos_0] = 0
+            next_pos_0 += 1
+            front_index += 1
+        elif input_list[front_index] == 2:           
+            input_list[front_index] = input_list[next_pos_2] 
+            input_list[next_pos_2] = 2
+            next_pos_2 -= 1
         else:
-            back_index -= 1               # sum > target ==> shift back pointer backward
+            front_index += 1
+    return input_list
 
-    return [None, None]
 
-def test_function(test_case):
-    input_list = test_case[0]
-    target =test_case[1]
-    solution = test_case[2]
-    output = pair_sum(input_list, target)
-    if output == solution:
-        print("Pass: Pair Sum = Solution")
-    else:
-        print("False")
+test_case = [0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 2]
 
-input_list = [2, 7, 11, 15]
-target = 9
-solution = [2, 7]
-test_case = [input_list, target, solution]
-test_function(test_case)
+print(sort_012(test_case))
